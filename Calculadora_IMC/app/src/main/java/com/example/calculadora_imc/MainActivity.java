@@ -1,12 +1,15 @@
 package com.example.calculadora_imc;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.icu.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         inicializar();
 
         btn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 calcularIMC();
@@ -39,12 +43,15 @@ public class MainActivity extends AppCompatActivity {
         catego = findViewById(R.id.textView_categoria);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void calcularIMC(){
         double mass = Double.parseDouble(kg.getText().toString());
         double height = Double.parseDouble(a.getText().toString());
         double f = mass/Math.pow(height,2.0);
         c = f;
-        resul.setText(Double.toString(f));
+        DecimalFormat df = new DecimalFormat("#.##");
+        double imc_formato = Double.parseDouble(df.format(f));
+        resul.setText(Double.toString(imc_formato));
     }
 
     private void categoriaIMC(){
